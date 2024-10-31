@@ -1,0 +1,14 @@
+@import 'src/styles/base/colors';
+
+.badge {
+  color: white;
+  border-radius: 0.7rem;
+  width: 65px;
+  height: 30px;
+  display: block;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.8rem;
+  background-color: $blue-600;
+}

@@ -1,0 +1,26 @@
+@import 'src/styles/base/colors';
+
+.searchBar {
+  $root: &;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+
+  &__input {
+    font-size: 1rem;
+    line-height: 1.25rem;
+    padding: 0.625rem;
+    margin-left: 1.5rem;
+    width: 20rem;
+    border-color: $gray-100;
+    border-width: 1px;
+    border-radius: 0.8rem;
+    outline: none;
+    transition: 0.5s;
+
+    #{$root}:hover & {
+      border: 1px solid $blue-600;
+    }
+  }
+}
