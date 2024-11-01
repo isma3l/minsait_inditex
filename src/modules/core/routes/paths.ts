@@ -1,4 +1,5 @@
 export const Paths = {
   base: '/',
-  podcasts: '/podcasts/',
+  podcastDetails: 'podcast/:podcastId',
+  episodes: '/episodes/',
 };

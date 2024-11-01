@@ -1,19 +1,33 @@
+import { useState, useMemo } from 'react';
+import { PodcastList, SearchBar } from '../components';
 import { useGetPodcasts } from './useGetPodcasts';
+import * as styles from './podcasts.module.scss';
 
 export const Podcasts = () => {
-  const { data, error, isLoading } = useGetPodcasts();
+  const { data, error } = useGetPodcasts();
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
-  if (isLoading) return <p>Loading...</p>;
+  const filteredPodcasts = useMemo(() => {
+    const podcasts = data
+      ? data.filter(
+          (podcast) =>
+            podcast.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            podcast.title.toLowerCase().includes(searchTerm.toLowerCase()),
+        )
+      : [];
+    return podcasts;
+  }, [searchTerm, data]);
 
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <h1>Ocurrió un error al obtener los podcasts</h1>;
 
-  console.log('ddata', data);
-
-  return <h1>Podcasts</h1>;
+  return (
+    <div className={styles.podcastsPage}>
+      <SearchBar
+        value={searchTerm}
+        onChange={setSearchTerm}
+        podcastTotal={filteredPodcasts.length}
+      />
+      <PodcastList data={filteredPodcasts} />
+    </div>
+  );
 };
-
-/*
-https://tanstack.com/query/latest/docs/framework/react/plugins/createSyncStoragePersister
-https://tanstack.com/query/latest/docs/framework/react/overview
-https://baydis.medium.com/building-scalable-and-efficient-data-fetching-with-tanstack-query-79ce37b367a4
-*/
