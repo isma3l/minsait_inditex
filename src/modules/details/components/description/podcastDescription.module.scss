@@ -1,0 +1,63 @@
+@import 'src/styles/base/mixins';
+@import 'src/styles/base/colors';
+
+.description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 18rem;
+  padding: 1.5rem 1rem;
+  height: 100%;
+  @include inditex-card;
+
+  img {
+    border-radius: 0.25rem;
+    height: 14rem;
+    width: 14rem;
+  }
+
+  &__song {
+    border-bottom-width: 2px;
+    border-top-width: 2px;
+    padding: 1.25rem 0;
+    border-color: $gray-200;
+    border-style: solid;
+    width: 100%;
+    margin-top: 1.5rem;
+
+    h2 {
+      font-size: 1.1rem;
+      line-height: 1.75rem;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-weight: 400;
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.5rem;
+      color: $text-gray-600;
+    }
+  }
+
+  &__detail {
+    padding-top: 1.25rem;
+    max-width: 17.7rem;
+
+    h2 {
+      font-weight: 700;
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+
+    h3 {
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      overflow-wrap: break-word;
+      color: $text-gray-600;
+    }
+  }
+}

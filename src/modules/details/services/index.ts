@@ -1,0 +1,1 @@
+export { fetchDetailsPodcast } from './api';

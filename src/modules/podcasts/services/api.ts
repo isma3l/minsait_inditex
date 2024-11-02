@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
-import { PodcastsResponse, PodcastKeys } from './Response';
+import { PodcastsResponse, PodcastKeys } from './PodcastsResponse';
 import { PodcastInterface } from '@/modules/core/models';
 
 const PODCASTS_URL = '/us/rss/toppodcasts/limit=100/genre=1310/json';
-const BASE_URL = `${process.env['API_CORS']}${process.env['API_ITUNES_URL']}${PODCASTS_URL}`;
+const QUERY_URL = `${process.env['API_CORS']}${process.env['API_ITUNES_URL']}${PODCASTS_URL}`;
 
 const mapperToPodcasts = (response: PodcastsResponse): PodcastInterface[] => {
   return response.feed.entry.map((podcast) => ({
@@ -16,7 +16,7 @@ const mapperToPodcasts = (response: PodcastsResponse): PodcastInterface[] => {
 
 export const fetchPodcasts = async (): Promise<PodcastInterface[]> => {
   try {
-    const response = await fetch(BASE_URL);
+    const response = await fetch(QUERY_URL);
     const data = await response.json();
     return mapperToPodcasts(data);
   } catch (error) {
