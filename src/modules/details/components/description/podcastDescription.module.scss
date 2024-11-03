@@ -11,7 +11,12 @@
   height: 100%;
   @include inditex-card;
 
-  img {
+  &__link {
+    width: 100%;
+    text-align: center;
+  }
+
+  &__image {
     border-radius: 0.25rem;
     height: 14rem;
     width: 14rem;
@@ -25,11 +30,13 @@
     border-style: solid;
     width: 100%;
     margin-top: 1.5rem;
+    text-align: start;
 
     h2 {
       font-size: 1.1rem;
       line-height: 1.75rem;
       font-weight: 700;
+      color: black;
     }
 
     h3 {

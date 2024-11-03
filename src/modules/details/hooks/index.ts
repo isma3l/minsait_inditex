@@ -1,0 +1,1 @@
+export { useGetDetailsPodcast } from './useGetDetailsPodcast';

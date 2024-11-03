@@ -1,0 +1,85 @@
+@import 'src/styles/base/mixins';
+@import 'src/styles/base/colors';
+
+.episodes {
+  @include medium {
+    width: 64%;
+  }
+
+  &__counter {
+    @include inditex-card;
+    padding: 0.5rem 1.5rem;
+    margin-bottom: 1rem;
+
+    span {
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1.75rem;
+    }
+  }
+
+  &__container_table {
+    padding: 0.5rem 1.5rem;
+    @include inditex-card;
+  }
+
+  table {
+    table-layout: auto;
+    width: 100%;
+
+    .trHead {
+      border-bottom-width: 1px;
+      border-bottom: 1px solid $slate-300;
+      font-weight: bold;
+
+      .th {
+        padding-bottom: 0.5rem;
+        padding-top: 1rem;
+      }
+
+      .th--title {
+        width: 66.67%;
+      }
+
+      .th--date {
+        text-align: start;
+      }
+
+      .th--time {
+        text-align: center;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: solid 1px $slate-300;
+
+        .td {
+          padding-top: 0.75rem;
+          padding-bottom: 0.75rem;
+        }
+
+        .td--center {
+          text-align: center;
+        }
+
+        .td--right {
+          padding-right: 1px;
+        }
+
+        .link {
+          color: $text-link;
+        }
+      }
+      tr:nth-child(even) {
+        background: white;
+      }
+      tr:nth-child(odd) {
+        background: $slate-50;
+      }
+      tr:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}

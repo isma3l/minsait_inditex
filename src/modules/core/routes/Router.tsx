@@ -11,9 +11,15 @@ const LazyDetailsLayout = lazy(
   () => import(/*webpackChunkName: "LazyDetailsLayout"  */ '@/modules/details'),
 );
 
-const LazyEpisode = lazy(() =>
+const LazyListEpisodes = lazy(() =>
   import(/*webpackChunkName: "LazyEpisodePodcasts"  */ '@/modules/details/').then((module) => ({
-    default: module.Episodes,
+    default: module.ListEpisodes,
+  })),
+);
+
+const LazyEpisodeDetails = lazy(() =>
+  import(/*webpackChunkName: "LazyEpisodePodcasts"  */ '@/modules/details/').then((module) => ({
+    default: module.EpisodeDetails,
   })),
 );
 
@@ -42,7 +48,15 @@ export const Router = createBrowserRouter([
             index: true,
             element: (
               <Suspense>
-                <LazyEpisode />
+                <LazyListEpisodes />
+              </Suspense>
+            ),
+          },
+          {
+            path: Paths.episodeDetails,
+            element: (
+              <Suspense>
+                <LazyEpisodeDetails />
               </Suspense>
             ),
           },

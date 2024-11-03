@@ -1,53 +1,59 @@
 /* eslint-disable no-undef */
 import Parser from 'rss-parser';
-import { PodcastDetailDataResponse } from './PodcastResponse';
+import { PodcastDetailDataResponse, PodcastResponse, EpisodeResponse } from './PodcastResponse';
 import { EpisodeInterface, PodcastDetailsInterface, PodcastInterface } from '@/modules/core/models';
-import { formatDate } from '@/modules/core/util';
+import { formatDate, formatTime } from '@/modules/core/util';
 
-const PODCASTS_DETAILS_URL = '/lookup?id=';
-const QUERY_URL = `${process.env['API_CORS']}${process.env['API_ITUNES_URL']}${PODCASTS_DETAILS_URL}`;
-
+const DETAILS_URL = `${process.env['API_ITUNES_URL']}/lookup?id=`;
+const QUERY_PARAMS = '&media=podcast &entity=podcastEpisode&limit=20';
 const parserXML = new Parser();
 
-const mapperRssToEpisode = (
-  item: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any;
-  } & Parser.Item,
-): EpisodeInterface => {
+const buildDetailsUrl = (podcastId: string) => `${DETAILS_URL}${podcastId}${QUERY_PARAMS}`;
+
+const mapperToEpisode = (episode: EpisodeResponse): EpisodeInterface => {
   return {
-    id: item.guid ?? '',
-    title: item.title ?? '',
-    date: formatDate(item.pubDate ?? ''),
-    duration: item['itunes'].duration as string,
-    description: item.content ?? '',
-    audioUrl: item.enclosure?.url ?? '',
+    id: episode.trackId,
+    title: episode.trackName,
+    date: formatDate(episode.releaseDate),
+    duration: formatTime(episode.trackTimeMillis),
+    description: episode.description,
+    audioUrl: episode.episodeUrl,
   };
 };
 
+const mapperToPodcast = (podcastResponse: PodcastResponse): PodcastInterface => ({
+  id: podcastResponse.trackId,
+  title: podcastResponse.trackName,
+  author: podcastResponse.artistName,
+  urlImage: podcastResponse.artworkUrl600,
+  description: '',
+});
+
 export const fetchDetailsPodcast = async (podcastId: string): Promise<PodcastDetailsInterface> => {
   try {
-    const response = await fetch(`${QUERY_URL}${podcastId}`);
+    const encodedUrl = encodeURIComponent(buildDetailsUrl(podcastId));
+    const queryUrl = `${process.env['API_CORS']}${encodedUrl}`;
+    const response = await fetch(queryUrl);
+
     if (!response.ok) throw new Error();
+
     const data = await (response.json() as Promise<PodcastDetailDataResponse>);
-    const podcastDetailsResponse = data.results[0];
+    const [podcastResponse, ...episodesResponse] = data.results;
+    const podcastDetailsResponse = <PodcastResponse>podcastResponse;
     const dataRSS = await parserXML.parseURL(
       `${process.env['API_CORS']}${podcastDetailsResponse.feedUrl}`,
     );
 
-    const podcast: PodcastInterface = {
-      id: podcastDetailsResponse.trackId,
-      title: podcastDetailsResponse.trackName,
-      author: podcastDetailsResponse.artistName,
-      urlImage: podcastDetailsResponse.artworkUrl600,
-      description: dataRSS?.description ?? '',
+    const podcast = mapperToPodcast(podcastDetailsResponse);
+    const episodes: EpisodeInterface[] = (<EpisodeResponse[]>episodesResponse).map(mapperToEpisode);
+    console.log('episodes', episodes);
+    const podcastDetails: PodcastDetailsInterface = {
+      podcast: { ...podcast, description: dataRSS?.description ?? '' },
+      episodes,
     };
-    const episodes: EpisodeInterface[] = dataRSS.items.map(mapperRssToEpisode);
-
-    const podcastDetails: PodcastDetailsInterface = { podcast, episodes };
     return podcastDetails;
   } catch (error) {
-    console.log(`Error: fetch details podcast with id: ${podcastId}`, error);
+    console.error(`Error: fetch details podcast with id: ${podcastId}`, error);
     throw error;
   }
 };

@@ -1,0 +1,41 @@
+@import 'src/styles/base/colors';
+@import 'src/styles/base/mixins';
+
+.detail {
+  height: 100%;
+
+  @include medium {
+    width: 64%;
+  }
+
+  &__content {
+    height: 100%;
+    padding: 1.25rem 1.5rem;
+    @include inditex-card;
+  }
+
+  &__description {
+    padding-bottom: 1rem;
+    border-bottom: solid 2px $slate-300;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.2rem;
+    color: $text-gray-600;
+    white-space: pre-line;
+
+    h2 {
+      font-style: normal;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.2rem;
+      color: $text-gray-600;
+    }
+  }
+}

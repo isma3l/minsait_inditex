@@ -1,6 +1,6 @@
 import { useParams, Outlet } from 'react-router-dom';
 import { PodcastDescription } from '../components';
-import { useGetDetailsPodcast } from './useGetDetailsPodcast';
+import { useGetDetailsPodcast } from '../hooks';
 import { layout } from './detailsLayout.module.scss';
 
 export const DetailsLayout = () => {

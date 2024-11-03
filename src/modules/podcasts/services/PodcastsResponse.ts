@@ -8,7 +8,7 @@ export enum PodcastKeys {
 export interface PodcastsResponse {
   feed: {
     entry: {
-      id: { attributes: { [PodcastKeys.id]: string } };
+      id: { attributes: { [PodcastKeys.id]: number } };
       [PodcastKeys.author]: { label: string };
       [PodcastKeys.title]: { label: string };
       [PodcastKeys.urlImage]: { label: string }[];

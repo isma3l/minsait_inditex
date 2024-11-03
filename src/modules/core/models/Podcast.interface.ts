@@ -1,5 +1,5 @@
 export interface PodcastInterface {
-  id: string;
+  id: number;
   title: string;
   author: string;
   urlImage: string;

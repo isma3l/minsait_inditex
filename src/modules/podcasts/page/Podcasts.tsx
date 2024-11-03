@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { PodcastList, SearchBar } from '../components';
-import { useGetPodcasts } from './useGetPodcasts';
+import { useGetPodcasts } from '../hooks';
 import * as styles from './podcasts.module.scss';
 
 export const Podcasts = () => {

@@ -2,8 +2,7 @@
 import { PodcastsResponse, PodcastKeys } from './PodcastsResponse';
 import { PodcastInterface } from '@/modules/core/models';
 
-const PODCASTS_URL = '/us/rss/toppodcasts/limit=100/genre=1310/json';
-const QUERY_URL = `${process.env['API_CORS']}${process.env['API_ITUNES_URL']}${PODCASTS_URL}`;
+const PODCASTS_URL = `${process.env['API_ITUNES_URL']}/us/rss/toppodcasts/limit=100/genre=1310/json`;
 
 const mapperToPodcasts = (response: PodcastsResponse): PodcastInterface[] => {
   return response.feed.entry.map((podcast) => ({
@@ -16,11 +15,12 @@ const mapperToPodcasts = (response: PodcastsResponse): PodcastInterface[] => {
 
 export const fetchPodcasts = async (): Promise<PodcastInterface[]> => {
   try {
-    const response = await fetch(QUERY_URL);
+    const queryUrl = `${process.env['API_CORS']}${encodeURIComponent(PODCASTS_URL)}`;
+    const response = await fetch(queryUrl);
     const data = await response.json();
     return mapperToPodcasts(data);
   } catch (error) {
-    console.log('Error: fetch podcasts ', error);
+    console.error('Error: fetch podcasts ', error);
     throw error;
   }
 };
