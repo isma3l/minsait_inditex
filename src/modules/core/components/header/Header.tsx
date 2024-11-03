@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Paths } from '@/modules/core/routes';
+import { usePodcastStore } from '@/modules/core/store';
 import { Spinner } from '../spinner/Spinner';
 import * as styles from './header.module.scss';
-import { useIsLoading } from '@/modules/core/hooks';
 
 export const Header = () => {
-  const { isLoading } = useIsLoading();
+  const isLoading = usePodcastStore.use.isLoading();
 
   return (
     <Link to={Paths.base}>

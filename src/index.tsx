@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 //import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { QueryProvider } from '@/modules/core/queryProvider';
+import { QueryProvider } from '@/modules/core/providers';
 import App from './App';
 
 const rootElement = document.getElementById('root');
