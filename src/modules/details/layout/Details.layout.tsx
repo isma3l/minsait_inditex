@@ -8,7 +8,7 @@ import { usePodcastStore } from '@/modules/core/store';
 export const DetailsLayout = () => {
   const urlParams = useParams();
   const { data, error, isLoading: pending } = useGetDetailsPodcast(urlParams['podcastId'] ?? '');
-  const setIsLoading = usePodcastStore.use.setIsLoading();
+  const { setIsLoading } = usePodcastStore();
 
   useEffect(() => {
     setIsLoading(pending);

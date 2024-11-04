@@ -1,84 +1,85 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
-const webpack = require("webpack");
+const webpack = require('webpack');
 
 module.exports = {
-    entry: "./src/index.tsx",
-    mode: "development",
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, './dist'),
-        publicPath: '/'
+  entry: './src/index.tsx',
+  mode: 'development',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, './dist'),
+    publicPath: '/',
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'public', 'index.html'),
+      favicon: path.join(__dirname, 'public', 'favicon.ico'),
+    }),
+    new Dotenv(),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+      Buffer: ['buffer', 'Buffer'],
+    }),
+  ],
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
     },
-    plugins: [
-        new HtmlWebpackPlugin({ 
-            template: path.join(__dirname, "public", "index.html"),
-            favicon: path.join(__dirname, "public", "favicon.ico"),
-        }),
-        new Dotenv(),
-        new webpack.ProvidePlugin({
-            process: "process/browser",
-            Buffer: ["buffer", "Buffer"],
-        }),
+    fallback: {
+      timers: require.resolve('timers-browserify'),
+      https: require.resolve('https-browserify'),
+      stream: require.resolve('stream-browserify'),
+      http: require.resolve('stream-http'),
+      'process/browser': require.resolve('process/browser'),
+      buffer: require.resolve('buffer'),
+    },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|ts)x?$/,
+        use: ['babel-loader'],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.s?css$/,
+        include: /\.module\.s?css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[name]__[local]--[hash:base64:5]',
+              },
+              importLoaders: 1,
+            },
+          },
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.s?css$/,
+        exclude: /\.module\.s?css$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
     ],
-    resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx'],
-        alias: {
-            '@': path.resolve(__dirname, 'src')
-        },
-        fallback: {
-            timers: require.resolve("timers-browserify"),
-            https: require.resolve("https-browserify"),
-            stream: require.resolve("stream-browserify"),
-            http: require.resolve("stream-http"),
-            'process/browser': require.resolve("process/browser"),
-            buffer: require.resolve("buffer"),
-        }
+  },
+  devtool: 'source-map',
+  optimization: {
+    minimize: false,
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        defaultVendors: false,
+      },
     },
-    module: {
-        rules: [
-            {
-                test: /\.(js|ts)x?$/,
-                use: ['babel-loader'],
-                exclude: /node_modules/
-            },
-            {
-                test: /\.s?css$/,
-                include: /\.module\.s?css$/,
-                use: [
-                    "style-loader",
-                    {
-                        loader: "css-loader",
-                        options: {
-                            modules: {
-                                localIdentName:'[name]__[local]--[hash:base64:5]',
-                            },
-                            importLoaders: 1
-                        }
-                    },
-                    "sass-loader"
-                ]
-            },
-            {
-                test: /\.s?css$/,
-                exclude: /\.module\.s?css$/,
-                use: ["style-loader", "css-loader", "sass-loader"]
-            }
-        ]
-    },
-    optimization: {
-        minimize: false,
-        splitChunks: {
-            chunks: 'all',
-            cacheGroups: {
-                defaultVendors: false,
-            },
-        }
-    },
-    devServer: {
-        port: 8080,
-        hot: true,
-        historyApiFallback: true,
-    }
-}
+  },
+  devServer: {
+    port: 8080,
+    hot: true,
+    historyApiFallback: true,
+  },
+};

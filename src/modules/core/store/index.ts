@@ -1,1 +1,1 @@
-export { usePodcastStore } from './store';
+export { usePodcastStore } from './usePodcastStore';

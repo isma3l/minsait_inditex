@@ -5,12 +5,14 @@ import { Spinner } from '../spinner/Spinner';
 import * as styles from './header.module.scss';
 
 export const Header = () => {
-  const isLoading = usePodcastStore.use.isLoading();
+  const { isLoading } = usePodcastStore();
 
   return (
     <Link to={Paths.base}>
       <header className={styles.header}>
-        <span className={styles.header__logo}>Podcaster</span>
+        <span className={styles.header__logo} aria-label='logo'>
+          Podcaster
+        </span>
         {isLoading && <Spinner />}
       </header>
     </Link>

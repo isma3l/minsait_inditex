@@ -1,4 +1,4 @@
-import { PodcastInterface } from '@/shared/models';
+import { PodcastInterface } from '@/modules/core/models';
 import { Podcast } from '../podcast/Podcast';
 import { list } from './podcastList.module.scss';
 

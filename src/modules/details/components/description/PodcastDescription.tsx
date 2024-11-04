@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PodcastInterface } from '@/modules/core/models';
 import { Paths } from '@/modules/core/routes';
 import * as styles from './podcastDescription.module.scss';
@@ -8,12 +8,9 @@ type PodcastDescriptionProps = {
 };
 
 export const PodcastDescription = ({ podcast }: PodcastDescriptionProps) => {
-  const urlParams = useParams();
-  const podcastId = urlParams?.['podcastId'] ?? '';
-
   return (
     <div className={styles.description}>
-      <Link className={styles.description__link} to={`${Paths.baseDetails}${podcastId}`}>
+      <Link className={styles.description__link} to={`${Paths.baseDetails}${podcast.id}`}>
         <img src={podcast.urlImage} className={styles.description__image} alt='album photo' />
         <div className={styles.description__song}>
           <h2 aria-label='title'>{podcast.title}</h2>
